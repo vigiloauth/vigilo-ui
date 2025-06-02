@@ -16,6 +16,7 @@ Thank you for your interest in contributing to **VigiloAuth Admin-UI**. This gui
       - [Check your Node version:](#check-your-node-version)
     - [3.2 Installing `nvm` (Node Version Manager)](#32-installing-nvm-node-version-manager)
     - [3.3. Install \& Use the Correct Node Version](#33-install--use-the-correct-node-version)
+    - [3.4. Available Scripts](#34-available-scripts)
   - [4. License](#4-license)
 
 ---
@@ -106,6 +107,19 @@ Then run the project as usual:
 npm install
 npm run dev
 ```
+
+### 3.4. Available Scripts
+
+| Script | Description |
+| :----- | :---------- |
+
+|`npm run dev`| Starts the dev server |
+|`npm run build`| Builds the app for production |
+|`npm run preview`| Previews the production build |
+|`npm run lint`| Lints the codebase |
+|`npm run test`| Runs unit tests (if configured) |
+|`npm run lint:fix`| Automatically fixes linting issues using ESLint |
+|`npm run format`| Formats all your JavaScript, JSX, CSS, and Markdown files in `src/` using Prettier|
 
 ---
 

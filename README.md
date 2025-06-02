@@ -23,11 +23,14 @@
   - [Table of Contents](#table-of-contents)
   - [1. Introduction](#1-introduction)
   - [2. Features](#2-features)
-  - [3. Contributing](#3-contributing)
-    - [3.1. How to Contribute](#31-how-to-contribute)
-    - [3.2. Commit Standards](#32-commit-standards)
-    - [3.3. Commit Types](#33-commit-types)
-  - [4. License](#4-license)
+  - [3. Getting Started](#3-getting-started)
+    - [3.1. Pull the Docker Image](#31-pull-the-docker-image)
+    - [3.2. Run the Container](#32-run-the-container)
+  - [4. Contributing](#4-contributing)
+    - [4.1. How to Contribute](#41-how-to-contribute)
+    - [4.2. Commit Standards](#42-commit-standards)
+    - [4.3. Commit Types](#43-commit-types)
+  - [5. License](#5-license)
 
 ---
 
@@ -52,13 +55,35 @@ This is the web-based Admin UI for managing the VigiloAuth server. Built with mo
 
 ---
 
-## 3. Contributing
+## 3. Getting Started
+
+You can easily run the VigiloAuth Admin-UI using Docker.
+
+### 3.1. Pull the Docker Image
+
+```bash
+docker pull vigiloauth/ui:latest
+```
+
+### 3.2. Run the Container
+
+```bash
+docker run -d -p 3000:3000 vigiloauth/ui:latest
+```
+
+This will start the UI on http://localhost:3000 by default.
+
+> 🛠️ Note: The UI expects a backend instance of [VigiloAuth](<[VigiloAuth](https://github.com/vigiloauth/vigilo)>) to be available and configured. Make sure you’ve started the backend server and updated the appropriate environment variables or configuration.
+
+---
+
+## 4. Contributing
 
 We welcome contributions to improve VigiloAuth! Follow the steps below to ensure a smooth contribution process.
 
 > _If you're a first-time contributor, check out our [Good First Issues](https://github.com/vigiloauth/vigilo-ui/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22)._
 
-### 3.1. How to Contribute
+### 4.1. How to Contribute
 
 1. **Fork the Repository**: Create your own fork on GitHub.
 2. **Clone Your Fork**: Clone it to your local development environment.
@@ -69,7 +94,7 @@ We welcome contributions to improve VigiloAuth! Follow the steps below to ensure
 7. **Push Your Changes**: Push your branch to your GitHub fork.
 8. **Open a Pull Request**: Submit a PR to the main repository and clearly describe your changes.
 
-### 3.2. Commit Standards
+### 4.2. Commit Standards
 
 We follow the **_Conventional Commit_** standards to ensure clear and meaningful commit messages. Use the format:
 
@@ -79,7 +104,7 @@ We follow the **_Conventional Commit_** standards to ensure clear and meaningful
 [optional footer(s)]
 ```
 
-### 3.3. Commit Types
+### 4.3. Commit Types
 
 - `breaking`: Introduce a breaking change that may require users to modify their code or dependencies.
 - `feat`: Add a new feature that enhances the functionality of the project.
@@ -95,7 +120,7 @@ For more information about contributing, please read our [contribution guide](./
 
 ---
 
-## 4. License
+## 5. License
 
 Copyright 2024 Olivier Pimparé-Charbonneau
 
