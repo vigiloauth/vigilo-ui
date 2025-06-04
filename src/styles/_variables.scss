@@ -1,0 +1,40 @@
+// Font variables
+$font-stack: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+$font-monospace: 'IBM Plex Mono', monospace;
+$heading-weight: 700;
+$body-text-weight: 500;
+
+$heading-line-height: 1.1em;
+$heading-font-size: 3.2em;
+
+// Main colors
+$primary-color: #1890ff;
+$primary-hover: scale($primary-color, 8%);
+$primary-light: scale($primary-color, 40%);
+$primary-dark: scale($primary-color, 15%);
+$background-light: #f5f5f5;
+$background-dark: #242424;
+$background-white: white;
+
+$text-color-secondary: #434c5e;
+
+// Text colors
+$headings-dark: #2a2a2a;
+$body-text-dark: #434c5e;
+$subtext-dark: #7b8b9a;
+
+// Status colors
+$success-status: #6bbf59;
+$warning-status: #e9a63a;
+$error-status: #c75c5c;
+$info-status: #748cab;
+
+$light-text: rgba(255, 255, 255, 0.87);
+$dark-text: #213547;
+
+$button-dark-bg: #242424;
+$button-light-bg: #f5f5f5;
+$box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+$border-radius: 8px;
+
+$mobile-breakpoint: 576px;
