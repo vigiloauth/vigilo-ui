@@ -14,6 +14,33 @@
     }
   }
 
+  .footer {
+    user-select: none;
+    text-align: center;
+    margin-top: 45px;
+  
+    @media (max-width: $mobile-breakpoint) {
+      margin-top: 70px;
+      user-select: none;
+    }
+  
+    .typography,
+    .secondary-link {
+      user-select: none;
+      color: $text-color-secondary;
+    }
+  
+    .ant-link {
+      color: $primary-color;
+      user-select: none;
+      cursor: default;
+  
+      &:hover {
+        color: $primary-hover;
+      }
+    }
+  }
+
   .ant-input-affix-wrapper {
     border-radius: $border-radius - 4;
     padding: 12px 16px;
@@ -87,37 +114,37 @@
   }
 }
 
-.footer {
-  user-select: none;
-  text-align: center;
-  margin-top: 45px;
 
-  @media (max-width: $mobile-breakpoint) {
-    margin-top: 70px;
-    user-select: none;
-  }
-
-  .typography,
-  .secondary-link {
-    user-select: none;
-
-    color: $text-color-secondary;
-  }
-
-  .ant-link {
-    color: $primary-color;
-
-    user-select: none;
-    cursor: default;
-
-    &:hover {
-      color: $primary-hover;
-    }
-  }
+.form--registration {
+  --form-item-margin: 10px;
 }
 
 .form--registration {
   --form-item-margin: 10px;
+}
+
+.registration-form-item {
+  width: 100%;
+  
+  .ant-input {
+    height: 50px;
+  }
+  
+  .ant-input-affix-wrapper {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    
+    .ant-input {
+      height: auto; 
+    }
+  }
+}
+
+.password-requirement {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
 }
 
 .registration-title {

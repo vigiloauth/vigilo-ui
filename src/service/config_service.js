@@ -1,4 +1,4 @@
-export function fetchPasswordPolicy() {
+export default function fetchPasswordPolicy() {
   return {
     requireUpper: true,
     requireNumber: true,

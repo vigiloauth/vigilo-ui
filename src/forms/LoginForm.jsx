@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import FlexContainer from '../components/FlexContainer';
-import FormInput from '../components/FormInput';
+import { React, useState } from 'react';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {
   Form,
   Button,
@@ -10,8 +9,9 @@ import {
   Col,
   Divider,
   message,
+  Input,
 } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import FlexContainer from '../components/FlexContainer';
 import { authenticateUser } from '../service/user_service';
 import { useAuth } from '../context/AuthContext';
 import './form.scss';
@@ -28,7 +28,6 @@ function LoginForm() {
     setLoading(true);
     try {
       const data = await authenticateUser({ username, password });
-      console.log(data);
       if (data) {
         message.success('Login successful. You are being redirected');
         login(data, data.access_token, data.refresh_token);
@@ -44,30 +43,35 @@ function LoginForm() {
     <Form
       className="form"
       name="login"
-      initialValues={{ remember: true }}
+      initialValues={{ remember: false }}
       layout="vertical"
       onFinish={onFinish}
     >
-      <FormInput
-        placeholder="Username"
+      <Form.Item
         name="username"
-        required={true}
-        message=""
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        icon={<UserOutlined className="site-form-item-icon" />}
-      />
+        rules={[{ required: true, message: '' }]}
+        style={{ width: '100%' }}
+      >
+        <Input
+          name="username"
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+          prefix={<UserOutlined className="site-form-item-icon" />}
+        />
+      </Form.Item>
 
-      <FormInput
-        placeholder="Password"
-        name="password"
-        required={true}
-        message=""
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        isPassword={true}
-        icon={<LockOutlined className="site-form-item-icon" />}
-      />
+      <Form.Item
+        name="username"
+        rules={[{ required: true, message: '' }]}
+        style={{ width: '100%' }}
+      >
+        <Input
+          name="Password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          prefix={<LockOutlined className="site-form-item-icon" />}
+        />
+      </Form.Item>
 
       <Divider plain />
 
@@ -97,9 +101,9 @@ function LoginForm() {
         </Button>
       </Form.Item>
 
-      <FlexContainer vertical={true} height="10px" className="footer">
+      <FlexContainer vertical height="10px" className="footer">
         <Text type="secondary">
-          Don't have an account? <Link href="/signup">Sign up</Link>
+          Don&apos;t have an account? <Link href="/signup">Sign up</Link>
         </Text>
       </FlexContainer>
     </Form>

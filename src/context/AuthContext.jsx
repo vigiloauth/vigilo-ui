@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { React, createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
 
@@ -11,7 +12,7 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -43,7 +44,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData, accessToken, refreshToken) => {
-    console.log(userData);
     setUser(userData);
     localStorage.setItem(ACCESS_TOKEN, accessToken);
     localStorage.setItem(REFRESH_TOKEN, refreshToken);
@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }) => {
     return user?.roles?.includes(role) || false;
   };
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value = {
     user,
     isAuthenticated: !!user,
@@ -73,4 +74,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

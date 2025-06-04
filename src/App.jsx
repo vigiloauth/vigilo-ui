@@ -1,9 +1,9 @@
-import { lazy, Suspense } from 'react';
+import { React, lazy, Suspense } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { Spin } from 'antd';
 import FlexContainer from './components/FlexContainer';
 import ProtectedRoute from './components/ProtectedRoute';
-import { AuthProvider } from './context/AuthContext'; // Add this
+import { AuthProvider } from './context/AuthContext';
 import './index.scss';
 
 const LoginPage = lazy(() => import('./pages/Login/LoginPage'));
@@ -15,7 +15,7 @@ const PasswordResetPage = lazy(
 );
 const DashboardPage = lazy(() => import('./pages/Dashboard/DashboardPage'));
 
-const AppRoutes = () => {
+function AppRoutes() {
   return (
     <Suspense
       fallback={
@@ -31,7 +31,7 @@ const AppRoutes = () => {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute requireAdmin={true}>
+            <ProtectedRoute requireAdmin>
               <DashboardPage />
             </ProtectedRoute>
           }
@@ -39,9 +39,9 @@ const AppRoutes = () => {
       </Routes>
     </Suspense>
   );
-};
+}
 
-const App = () => {
+function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -49,6 +49,6 @@ const App = () => {
       </AuthProvider>
     </BrowserRouter>
   );
-};
+}
 
 export default App;

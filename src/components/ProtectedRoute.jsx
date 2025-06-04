@@ -1,9 +1,11 @@
+import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { Spin } from 'antd';
+import PropTypes from 'prop-types';
 import { useAuth } from '../context/AuthContext';
 import FlexContainer from './FlexContainer';
-import { Spin } from 'antd';
 
-const ProtectedRoute = ({ children, requireAdmin = false }) => {
+function ProtectedRoute({ children, requireAdmin }) {
   const { isAuthenticated, isAdmin, loading } = useAuth();
 
   if (loading) {
@@ -23,6 +25,16 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   }
 
   return children;
+}
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node,
+  requireAdmin: PropTypes.bool,
+};
+
+ProtectedRoute.defaultProps = {
+  children: null,
+  requireAdmin: false,
 };
 
 export default ProtectedRoute;

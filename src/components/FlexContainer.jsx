@@ -1,7 +1,8 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Flex } from 'antd';
 
-const FlexContainer = ({
+function FlexContainer({
   children,
   vertical = false,
   justify = 'center',
@@ -11,7 +12,7 @@ const FlexContainer = ({
   height,
   className,
   style = {},
-}) => {
+}) {
   return (
     <Flex
       gap={gap}
@@ -24,7 +25,7 @@ const FlexContainer = ({
       {children}
     </Flex>
   );
-};
+}
 
 FlexContainer.propTypes = {
   children: PropTypes.node.isRequired,
@@ -39,9 +40,21 @@ FlexContainer.propTypes = {
   ]),
   gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   align: PropTypes.oneOf(['start', 'center', 'end', 'stretch', 'baseline']),
-  style: PropTypes.object,
+  style: PropTypes.shape({}),
+  width: PropTypes.string,
   height: PropTypes.string,
   className: PropTypes.string,
+};
+
+FlexContainer.defaultProps = {
+  justify: 'center',
+  vertical: false,
+  gap: '10px',
+  align: 'center',
+  style: null,
+  width: '',
+  height: '',
+  className: '',
 };
 
 export default FlexContainer;

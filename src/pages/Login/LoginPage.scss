@@ -9,6 +9,7 @@
 }
 
 .login-card {
+  user-select: none;
   animation: fadeIn 1s ease-out;
   box-shadow: $box-shadow;
   border-radius: $border-radius;

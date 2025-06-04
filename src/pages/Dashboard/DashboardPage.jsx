@@ -1,3 +1,4 @@
+import React from 'react';
 import { Typography } from 'antd';
 import FlexContainer from '../../components/FlexContainer';
 

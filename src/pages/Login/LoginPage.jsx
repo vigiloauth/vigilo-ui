@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Typography } from 'antd';
 import './LoginPage.scss';
 
@@ -12,7 +13,7 @@ function LoginPage() {
   return (
     <FlexContainer height="100%">
       <Card className="login-card" variant="borderless">
-        <FlexContainer vertical={true}>
+        <FlexContainer vertical>
           <Title className="login-title">Welcome Back</Title>
           <Text className="login-subtitle">{defaultSigninMessage}</Text>
         </FlexContainer>

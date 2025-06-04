@@ -1,13 +1,14 @@
-import { useState } from 'react';
-import { Form, Divider, Button, Typography } from 'antd';
+import { React, useEffect, useState } from 'react';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
+import { Form, Divider, Button, Typography, Input } from 'antd';
 import FlexContainer from '../components/FlexContainer';
-import FormInput from '../components/FormInput';
-import vigiloLogo from '../assets/vigilo_auth_logo.svg';
+import fetchPasswordPolicy from '../service/config_service';
+import { registerUser } from '../service/user_service';
 import './form.scss';
 
-const { Title, Text, Link } = Typography;
+const { Text, Link } = Typography;
 
-function RegistrationForm({ passwordPolicy, loading }) {
+function RegistrationForm() {
   const [formData, setFormData] = useState({
     username: '',
     firstName: '',
@@ -22,8 +23,31 @@ function RegistrationForm({ passwordPolicy, loading }) {
     country: '',
   });
 
+  const [passwordPolicy, setPasswordPolicy] = useState({
+    requireUpper: true,
+    requireNumber: true,
+    requireSymbol: true,
+    minLength: 8,
+  });
+
+  const [loading, setLoading] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [showPasswordError, setShowPasswordError] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const data = fetchPasswordPolicy();
+    setPasswordPolicy(data);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (formData.password !== '' && passwordConfirm !== '') {
+      setShowPasswordError(passwordConfirm !== formData.password);
+    } else {
+      setShowPasswordError(false);
+    }
+  }, [formData.password, passwordConfirm]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -32,11 +56,27 @@ function RegistrationForm({ passwordPolicy, loading }) {
     }));
   };
 
+  const handlePasswordConfirmChange = (e) => {
+    setPasswordConfirm(e.target.value);
+  };
+
   const onFinish = async () => {
+    setLoading(true);
+    if (formData.password !== passwordConfirm) {
+      setShowPasswordError(true);
+      setLoading(false);
+      return;
+    }
+
     try {
-      data = await registerUser(formData);
+      console.log('im submitting');
+      const data = await registerUser(formData);
+      console.log(data);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -49,78 +89,157 @@ function RegistrationForm({ passwordPolicy, loading }) {
         justify="space-between"
         gap="10px"
       >
-        <FormInput
-          placeholder="First Name"
+        <Form.Item
+          className="registration-form-item"
           name="firstName"
-          required={true}
+          rules={[{ required: true, message: '' }]}
+        >
+          <Input
+            placeholder="First Name"
+            onChange={handleChange}
+            value={formData.firstName}
+            name="firstName"
+          />
+        </Form.Item>
+
+        <Form.Item
           className="registration-form-item"
-          message=""
-          value={formData.firstName}
-          onChange={handleChange}
-          inputHeight="50px"
-        />
-        <FormInput
-          placeholder="Last Name"
           name="lastName"
-          required={true}
-          className="registration-form-item"
-          message=""
-          value={formData.lastName}
-          onChange={handleChange}
-          inputHeight="50px"
-        />
+          rules={[{ required: true, message: '' }]}
+        >
+          <Input
+            name="lastName"
+            placeholder="Last Name"
+            onChange={handleChange}
+            value={formData.lastName}
+          />
+        </Form.Item>
       </FlexContainer>
     );
   };
 
   const renderEmailInput = () => {
     return (
-      <FlexContainer height="100%" width="100%" vertical={true}>
-        <FormInput
-          placeholder="Email"
-          name="email"
-          required={true}
+      <FlexContainer height="100%" width="100%" vertical>
+        <Form.Item
           className="registration-form-item"
-          message=""
-          width="100%"
-          value={formData.email}
-          onChange={handleChange}
-          inputHeight="50px"
-          inputWidth="100%"
-        />
+          rules={[{ required: true, message: '' }]}
+          name="email"
+        >
+          <Input
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            value={formData.email}
+          />
+        </Form.Item>
       </FlexContainer>
     );
   };
 
   const renderPasswordInputs = () => {
+    const hasUpper = /[A-Z]/.test(formData.password);
+    const hasNumber = /\d/.test(formData.password);
+    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(formData.password);
+    const hasMinLength = formData.password.length >= passwordPolicy.minLength;
+
+    const requirements = [
+      {
+        text: `At least ${passwordPolicy.minLength} characters`,
+        met: hasMinLength,
+        required: true,
+      },
+      {
+        text: 'One uppercase letter',
+        met: hasUpper,
+        required: passwordPolicy.requireUpper,
+      },
+      {
+        text: 'One number',
+        met: hasNumber,
+        required: passwordPolicy.requireNumber,
+      },
+      {
+        text: 'One special character',
+        met: hasSymbol,
+        required: passwordPolicy.requireSymbol,
+      },
+    ];
+
+    const showPolicy = formData.password.length > 0;
+
     return (
-      <FlexContainer height="100%" width="100%" vertical={true}>
-        <FormInput
-          placeholder="Password"
+      <FlexContainer height="100%" width="100%" vertical>
+        <Form.Item
+          className="registration-form-item"
+          rules={[{ required: true, message: '' }]}
           name="password"
-          required={true}
-          className="registration-form-item"
-          message=""
-          width="100%"
-          value={formData.password}
-          onChange={handleChange}
-          inputHeight="50px"
-          inputWidth="100%"
-          isPassword={true}
-        />
-        <FormInput
-          placeholder="Confirm Password"
+        >
+          <Input.Password
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+            value={formData.password}
+            status={showPasswordError ? 'error' : ''}
+          />
+        </Form.Item>
+
+        <Form.Item
           name="passwordConfirm"
-          required={true}
           className="registration-form-item"
-          message=""
-          width="100%"
-          value={passwordConfirm}
-          onChange={(e) => setPasswordConfirm(e.target.value)}
-          inputHeight="50px"
-          inputWidth="100%"
-          isPassword={true}
-        />
+          rules={[
+            {
+              required: true,
+              message: '',
+            },
+          ]}
+          validateStatus={showPasswordError ? 'error' : ''}
+          help={showPasswordError ? 'Passwords do not match' : ''}
+        >
+          <Input.Password
+            name="passwordConfirm"
+            placeholder="Confirm password"
+            onChange={(e) => handlePasswordConfirmChange(e)}
+            value={passwordConfirm}
+            status={showPasswordError ? 'error' : ''}
+          />
+        </Form.Item>
+        <FlexContainer justify="start" width="100%">
+          {showPolicy && (
+            <div style={{ marginTop: '8px' }}>
+              {requirements.map(
+                (req) =>
+                  req.required && (
+                    <div key={req.text} className="password-requirement">
+                      {req.met ? (
+                        <CheckCircleFilled
+                          style={{
+                            color: '#52c41a',
+                            marginRight: '8px',
+                            fontSize: '12px',
+                          }}
+                        />
+                      ) : (
+                        <CloseCircleFilled
+                          style={{
+                            color: '#ff4d4f',
+                            marginRight: '8px',
+                            fontSize: '12px',
+                          }}
+                        />
+                      )}
+                      <Text
+                        type={req.met ? 'success' : 'secondary'}
+                        style={{ fontSize: '13px', color: '#434c5e' }}
+                      >
+                        {req.text}
+                      </Text>
+                    </div>
+                  )
+              )}
+            </div>
+          )}
+        </FlexContainer>
       </FlexContainer>
     );
   };
@@ -132,17 +251,6 @@ function RegistrationForm({ passwordPolicy, loading }) {
       layout="vertical"
       onFinish={onFinish}
     >
-      <FlexContainer vertical={true} justify="center" align="center">
-        <img
-          src={vigiloLogo}
-          alt="Vigilo Auth Logo"
-          style={{ height: '110px' }}
-        />
-        <Title level={3} className="registration-title" style={{ margin: 0 }}>
-          Create your account
-        </Title>
-      </FlexContainer>
-
       {renderFirstAndLastNameInput()}
       {renderEmailInput()}
       {renderPasswordInputs()}
@@ -162,7 +270,7 @@ function RegistrationForm({ passwordPolicy, loading }) {
         </Button>
       </Form.Item>
 
-      <FlexContainer vertical={true} height="10px" className="footer">
+      <FlexContainer vertical height="10px" className="footer">
         <Text type="secondary">
           Already have an account? <Link href="/">Login</Link>
         </Text>
