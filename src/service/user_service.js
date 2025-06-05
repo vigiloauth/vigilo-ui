@@ -46,7 +46,18 @@ export async function registerUser(user) {
     credentials: 'include',
   });
 
-  const data = await response.json();
+  if (response.status !== 201) {
+    let errorMessage = 'Something went wrong, please try again later.';
+    switch (response.status) {
+      case 409:
+        errorMessage =
+          'The provided email is already associated with an account';
+        break;
+      default:
+    }
 
-  return data;
+    throw new Error(errorMessage);
+  }
+
+  return response.json();
 }

@@ -8,6 +8,10 @@
   }
 }
 
+.vigilo-logo {
+  height: 150px;
+}
+
 .login-card {
   user-select: none;
   animation: fadeIn 1s ease-out;
@@ -36,6 +40,7 @@
     line-height: $heading-line-height;
     color: $headings-dark;
     font-weight: $heading-weight;
+    margin: 0px;
   }
 
   .login-subtitle {

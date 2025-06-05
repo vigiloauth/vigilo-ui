@@ -1,6 +1,15 @@
 import { React, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
-import { Form, Divider, Button, Typography, Input } from 'antd';
+import {
+  Form,
+  Divider,
+  Button,
+  Typography,
+  Input,
+  message,
+  Select,
+} from 'antd';
 import FlexContainer from '../components/FlexContainer';
 import fetchPasswordPolicy from '../service/config_service';
 import { registerUser } from '../service/user_service';
@@ -9,18 +18,15 @@ import './form.scss';
 const { Text, Link } = Typography;
 
 function RegistrationForm() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: '',
     firstName: '',
     lastName: '',
-    birthdate: '',
     email: '',
     password: '',
-    streetAddress: '',
-    locality: '',
-    region: '',
-    postalCode: '',
-    country: '',
+    roles: ['ADMIN'],
   });
 
   const [passwordPolicy, setPasswordPolicy] = useState({
@@ -69,12 +75,15 @@ function RegistrationForm() {
     }
 
     try {
-      console.log('im submitting');
-      const data = await registerUser(formData);
-      console.log(data);
-      setLoading(false);
+      await registerUser(formData);
+      message.success(
+        'Account created. Please check your email to verify your account.'
+      );
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
     } catch (err) {
-      setLoading(false);
+      message.error(err.message);
     } finally {
       setLoading(false);
     }
@@ -95,7 +104,7 @@ function RegistrationForm() {
           rules={[{ required: true, message: '' }]}
         >
           <Input
-            placeholder="First Name"
+            placeholder="first name"
             onChange={handleChange}
             value={formData.firstName}
             name="firstName"
@@ -109,9 +118,28 @@ function RegistrationForm() {
         >
           <Input
             name="lastName"
-            placeholder="Last Name"
+            placeholder="last name"
             onChange={handleChange}
             value={formData.lastName}
+          />
+        </Form.Item>
+      </FlexContainer>
+    );
+  };
+
+  const renderUsernameInput = () => {
+    return (
+      <FlexContainer height="100%" width="100%" vertical>
+        <Form.Item
+          className="registration-form-item"
+          rules={[{ required: true, message: '' }]}
+          name="username"
+        >
+          <Input
+            name="username"
+            placeholder="username"
+            onChange={handleChange}
+            value={formData.username}
           />
         </Form.Item>
       </FlexContainer>
@@ -128,7 +156,7 @@ function RegistrationForm() {
         >
           <Input
             name="email"
-            placeholder="Email"
+            placeholder="email"
             onChange={handleChange}
             value={formData.email}
           />
@@ -176,7 +204,7 @@ function RegistrationForm() {
           name="password"
         >
           <Input.Password
-            placeholder="Password"
+            placeholder="password"
             name="password"
             onChange={handleChange}
             value={formData.password}
@@ -198,7 +226,7 @@ function RegistrationForm() {
         >
           <Input.Password
             name="passwordConfirm"
-            placeholder="Confirm password"
+            placeholder="confirm password"
             onChange={(e) => handlePasswordConfirmChange(e)}
             value={passwordConfirm}
             status={showPasswordError ? 'error' : ''}
@@ -244,6 +272,31 @@ function RegistrationForm() {
     );
   };
 
+  const renderRollSelection = () => {
+    const adminRole = 'ADMIN';
+    const userRole = 'USER';
+
+    return (
+      <FlexContainer height="100%" width="100%" vertical>
+        <Form.Item
+          name="roles"
+          className="registration-form-item"
+          rules={[{ message: '' }]}
+        >
+          <Select
+            defaultValue={adminRole}
+            disabled
+            options={[
+              { value: adminRole, label: 'admin' },
+              { value: userRole, label: 'user' },
+            ]}
+            style={{ width: '100%' }}
+          />
+        </Form.Item>
+      </FlexContainer>
+    );
+  };
+
   return (
     <Form
       className="form form--registration"
@@ -252,7 +305,9 @@ function RegistrationForm() {
       onFinish={onFinish}
     >
       {renderFirstAndLastNameInput()}
+      {renderUsernameInput()}
       {renderEmailInput()}
+      {renderRollSelection()}
       {renderPasswordInputs()}
 
       <Divider plain />

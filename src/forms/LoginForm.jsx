@@ -47,27 +47,19 @@ function LoginForm() {
       layout="vertical"
       onFinish={onFinish}
     >
-      <Form.Item
-        name="username"
-        rules={[{ required: true, message: '' }]}
-        style={{ width: '100%' }}
-      >
+      <Form.Item name="username" rules={[{ required: true, message: '' }]}>
         <Input
           name="username"
-          placeholder="Username"
+          placeholder="username"
           onChange={(e) => setUsername(e.target.value)}
           prefix={<UserOutlined className="site-form-item-icon" />}
         />
       </Form.Item>
 
-      <Form.Item
-        name="username"
-        rules={[{ required: true, message: '' }]}
-        style={{ width: '100%' }}
-      >
-        <Input
-          name="Password"
-          placeholder="Password"
+      <Form.Item name="password" rules={[{ required: true, message: '' }]}>
+        <Input.Password
+          name="password"
+          placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
           prefix={<LockOutlined className="site-form-item-icon" />}
         />
