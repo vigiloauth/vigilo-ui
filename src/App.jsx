@@ -42,48 +42,11 @@ function AppRoutes() {
 }
 
 function App() {
-const LoginPage = lazy(() => import('./pages/Login/LoginPage'));
-const RegistrationPage = lazy(
-  () => import('./pages/Registration/RegistrationPage')
-);
-const PasswordResetPage = lazy(
-  () => import('./pages/PasswordReset/PasswordResetPage')
-);
-const DashboardPage = lazy(() => import('./pages/Dashboard/DashboardPage'));
-
-function AppRoutes() {
-  return (
-    <Suspense
-      fallback={
-        <FlexContainer width="100%" height="100vh">
-          <Spin size="large" />
-        </FlexContainer>
-      }
-    >
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/signup" element={<RegistrationPage />} />
-        <Route path="/reset-password" element={<PasswordResetPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute requireAdmin>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Suspense>
-  );
-}
-
-function App() {
   return (
     <AuthProvider>
       <AppRoutes />
     </AuthProvider>
   );
-}
 }
 
 export default App;

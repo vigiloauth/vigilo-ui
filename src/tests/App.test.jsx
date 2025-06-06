@@ -50,12 +50,15 @@ vi.mock('../context/AuthContext', () => {
 vi.mock('../pages/Login/LoginPage', () => ({
   default: () => <div>Login Page</div>,
 }));
+
 vi.mock('../pages/Registration/RegistrationPage', () => ({
   default: () => <div>Registration Page</div>,
 }));
+
 vi.mock('../pages/PasswordReset/PasswordResetPage', () => ({
   default: () => <div>Password Reset Page</div>,
 }));
+
 vi.mock('../pages/Dashboard/DashboardPage', () => ({
   default: () => <div>Dashboard Page</div>,
 }));
