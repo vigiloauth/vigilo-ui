@@ -112,7 +112,6 @@ npm run dev
 
 | Script | Description |
 | :----- | :---------- |
-
 |`npm run dev`| Starts the dev server |
 |`npm run build`| Builds the app for production |
 |`npm run preview`| Previews the production build |

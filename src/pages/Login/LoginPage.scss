@@ -1,0 +1,51 @@
+@use '../../styles/variables' as *;
+@use '../../styles/keyframes' as *;
+@use '../../styles/mixins' as *;
+
+.login-container {
+  @media (max-width: $mobile-breakpoint) {
+    padding: 0;
+  }
+}
+
+.vigilo-logo {
+  height: 150px;
+}
+
+.login-card {
+  user-select: none;
+  animation: fadeIn 1s ease-out;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius;
+  width: 100%;
+  max-width: 450px;
+  min-height: auto;
+  padding: 32px;
+  background-color: $background-white;
+
+  @media (max-width: $mobile-breakpoint) {
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .login-title {
+    font-size: $heading-font-size;
+    line-height: $heading-line-height;
+    color: $headings-dark;
+    font-weight: $heading-weight;
+    margin: 0px;
+  }
+
+  .login-subtitle {
+    margin-bottom: 32px;
+    color: $body-text-dark;
+    font-weight: $body-text-weight;
+  }
+}

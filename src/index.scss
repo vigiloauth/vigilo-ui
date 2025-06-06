@@ -1,0 +1,32 @@
+@use './styles/variables' as *;
+@use './styles/keyframes' as *;
+@use './styles/mixins' as *;
+
+// Root styles
+:root {
+  font-family: $font-stack;
+  line-height: 1.5;
+  color-scheme: light;
+  color: $dark-text;
+  background-color: $background-light;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Body styles
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: $light-text;
+    background-color: $background-light;
+  }
+}

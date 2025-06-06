@@ -1,0 +1,152 @@
+@use '../styles/variables' as *;
+@use '../styles/keyframes' as *;
+@use '../styles/mixins' as *;
+
+.form {
+  user-select: none;
+  --form-item-margin: 24px;
+
+  .ant-form-item {
+    margin-bottom: var(--form-item-margin);
+
+    @media (max-width: $mobile-breakpoint) {
+      margin-bottom: 16px !important;
+    }
+  }
+
+  .footer {
+    user-select: none;
+    text-align: center;
+    margin-top: 45px;
+  
+    @media (max-width: $mobile-breakpoint) {
+      margin-top: 70px;
+      user-select: none;
+    }
+  
+    .typography,
+    .secondary-link {
+      user-select: none;
+      color: $text-color-secondary;
+    }
+  
+    .ant-link {
+      color: $primary-color;
+      user-select: none;
+      cursor: default;
+  
+      &:hover {
+        color: $primary-hover;
+      }
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    border-radius: $border-radius - 4;
+    padding: 12px 16px;
+
+    &:hover,
+    &:focus {
+      border-color: $primary-color;
+    }
+
+    @media (max-width: $mobile-breakpoint) {
+      padding: 8px 12px;
+    }
+
+    .ant-input {
+      font-size: 16px;
+      user-select: none;
+
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .ant-checkbox-wrapper {
+    color: $text-color-secondary;
+
+    &:hover {
+      .ant-checkbox-inner {
+        border-color: $primary-color;
+      }
+    }
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+}
+
+.button {
+  user-select: none;
+  height: 48px;
+  border-radius: $border-radius - 4;
+
+  @media (max-width: $mobile-breakpoint) {
+    height: 40px;
+  }
+
+  &.ant-btn-primary {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    font-weight: $body-text-weight;
+
+    &:hover,
+    &:focus {
+      background-color: $primary-hover;
+      border-color: $primary-hover;
+    }
+  }
+}
+
+.divider {
+  user-select: none;
+  font-size: 14px;
+  color: $text-color-secondary;
+  margin: 24px 0;
+
+  @media (max-width: $mobile-breakpoint) {
+    font-size: 12px;
+    margin: 16px 0;
+  }
+}
+
+
+.form--registration {
+  --form-item-margin: 10px;
+}
+
+.form--registration {
+  --form-item-margin: 10px;
+}
+
+.registration-form-item {
+  width: 100%;
+  
+  .ant-input {
+    height: 50px;
+  }
+  
+  .ant-input-affix-wrapper {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    
+    .ant-input {
+      height: auto; 
+    }
+  }
+}
+
+.password-requirement {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.registration-title {
+  margin-bottom: 25px !important;
+}
