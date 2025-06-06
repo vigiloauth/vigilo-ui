@@ -1,5 +1,5 @@
 import { React, lazy, Suspense } from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Spin } from 'antd';
 import FlexContainer from './components/FlexContainer';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -43,11 +43,9 @@ function AppRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </BrowserRouter>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
 
