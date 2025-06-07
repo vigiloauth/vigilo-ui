@@ -38,7 +38,8 @@ function RegistrationForm() {
 
   const [loading, setLoading] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [showPasswordError, setShowPasswordError] = useState(false);
+  const [showPasswordFormatError, setShowPasswordFormatError] = useState(false);
+  const [showEmailFormatError, setShowEmailFormatError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -49,9 +50,9 @@ function RegistrationForm() {
 
   useEffect(() => {
     if (formData.password !== '' && passwordConfirm !== '') {
-      setShowPasswordError(passwordConfirm !== formData.password);
+      setShowPasswordFormatError(passwordConfirm !== formData.password);
     } else {
-      setShowPasswordError(false);
+      setShowPasswordFormatError(false);
     }
   }, [formData.password, passwordConfirm]);
 
@@ -66,10 +67,31 @@ function RegistrationForm() {
     setPasswordConfirm(e.target.value);
   };
 
+  const isValidEmailFormat = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const email = e.target.value;
+
+    setFormData((prev) => ({
+      ...prev,
+      email,
+    }));
+
+    setShowEmailFormatError(email !== '' && !isValidEmailFormat(email));
+  };
+
   const onFinish = async () => {
     setLoading(true);
     if (formData.password !== passwordConfirm) {
-      setShowPasswordError(true);
+      setShowPasswordFormatError(true);
+      setLoading(false);
+      return;
+    }
+
+    if (!isValidEmailFormat(formData.email)) {
+      setShowEmailFormatError(true);
       setLoading(false);
       return;
     }
@@ -151,13 +173,20 @@ function RegistrationForm() {
       <FlexContainer height="100%" width="100%" vertical>
         <Form.Item
           className="registration-form-item"
-          rules={[{ required: true, message: '' }]}
+          rules={[
+            {
+              required: true,
+              message: '',
+            },
+          ]}
           name="email"
+          validateStatus={showEmailFormatError ? 'error' : ''}
+          help={showEmailFormatError ? 'Invalid email format' : ''}
         >
           <Input
             name="email"
             placeholder="email"
-            onChange={handleChange}
+            onChange={handleEmailChange}
             value={formData.email}
           />
         </Form.Item>
@@ -208,7 +237,7 @@ function RegistrationForm() {
             name="password"
             onChange={handleChange}
             value={formData.password}
-            status={showPasswordError ? 'error' : ''}
+            status={showPasswordFormatError ? 'error' : ''}
           />
         </Form.Item>
 
@@ -221,15 +250,15 @@ function RegistrationForm() {
               message: '',
             },
           ]}
-          validateStatus={showPasswordError ? 'error' : ''}
-          help={showPasswordError ? 'Passwords do not match' : ''}
+          validateStatus={showPasswordFormatError ? 'error' : ''}
+          help={showPasswordFormatError ? 'Passwords do not match' : ''}
         >
           <Input.Password
             name="passwordConfirm"
             placeholder="confirm password"
             onChange={(e) => handlePasswordConfirmChange(e)}
             value={passwordConfirm}
-            status={showPasswordError ? 'error' : ''}
+            status={showPasswordFormatError ? 'error' : ''}
           />
         </Form.Item>
         <FlexContainer justify="start" width="100%">

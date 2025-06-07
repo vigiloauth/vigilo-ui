@@ -96,6 +96,16 @@ describe('RegistrationForm', () => {
     });
   });
 
+  it('shows error for invalid email formats', async () => {
+    render(<RegistrationForm />);
+    fireEvent.change(screen.getByPlaceholderText(/email/i), {
+      target: { value: 'johndoe@mailcom' },
+    });
+    await waitFor(() => {
+      expect(screen.getByText(/Invalid email format/i)).toBeInTheDocument();
+    });
+  });
+
   it('calls registerUser and shows success message on valid submit', async () => {
     userService.registerUser.mockResolvedValueOnce({});
     render(<RegistrationForm />);
